@@ -4,6 +4,7 @@ import { Router, IndexRoute, Route, Link, browserHistory } from 'react-router';
 import MoviesList from './MoviesList.jsx';
 import Search from './Search.jsx'
 import MovieDetails from './MovieDetails.jsx'
+import FavoritesList from './FavoritesList.jsx'
 
 let NoMatch = React.createClass({
 	render() {
@@ -14,6 +15,7 @@ let NoMatch = React.createClass({
 let Navigator = () => (
 	<div> 
 		<Link to='/'> Home </Link>
+		<Link to='/favorites'> Favorites </Link>
 	</div>
 )
 
@@ -30,6 +32,7 @@ render((
     		<IndexRoute component={MoviesList}/>
       		<Route path="search" component={Search}/>
       		<Route path="movie" component={MovieDetails}/>
+      		<Route path="favorites" component={FavoritesList}/>
       		<Route path="*" component={NoMatch}/>
       	</Route>
   	</Router>

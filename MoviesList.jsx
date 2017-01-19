@@ -38,6 +38,12 @@ let MoviesList = React.createClass({
 		})
 	},
 
+	handleSearch(event) {
+		if (!this.state.searchField) {
+			event.preventDefault()	
+		}
+	},
+
 	render() {
 		let movies = this.state.movies.map(movie => {
 			let movieGenres = movie.genre_ids.map(movieGenreId => this.state.genres[movieGenreId]).join(', ')
@@ -52,7 +58,7 @@ let MoviesList = React.createClass({
 			<div>
 				<input type="text" value={this.state.searchField} onChange={this.updateSearchField}/>
 
-				<Link to={{ pathname: '/search', query: { query: this.state.searchField } }}> Search </Link>
+				<Link onClick={this.handleSearch} to={{ pathname: '/search', query: { query: this.state.searchField } }}> Search </Link>
 
 				<ul> 
 					{movies}
