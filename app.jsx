@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, IndexRoute, Route, Link, browserHistory } from 'react-router';
 import pages from './pages'
+import Search from "./components/Search.jsx"
 
 let NoMatch = React.createClass({
 	render() {
@@ -11,6 +12,7 @@ let NoMatch = React.createClass({
 
 let Navigator = () => (
 	<div> 
+		<Search/>
 		<Link to='/'> Home </Link>
 		<Link to='/favorites'> Favorites </Link>
 	</div>
@@ -22,8 +24,6 @@ let Container = (props) => (
 		{props.children}
 	</div>
 )
-
-console.log(pages)
 
 render((
  	<Router history={browserHistory}>

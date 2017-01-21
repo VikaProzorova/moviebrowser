@@ -3,31 +3,39 @@ import {Link} from 'react-router';
 import API from '../api'
 import MovieList from '../components/MovieList.jsx'
 
-let Search = React.createClass({
+let SearchResults = React.createClass({
+	componentWillReceiveProps(nextProps) {
+		this.loadSearchResults(nextProps.location.query.query)
+	},
+
+	getInitialState() {
+		return {
+			movies: [],
+			page: 1
+		};
+	},
+
+	componentWillMount() {
+		this.loadSearchResults(this.props.location.query.query)
+	},
+
+	loadSearchResults(searchField) {
+		API.getSearchResults(searchField, this.state.page)
+		.then(({results}) => {
+			this.setState({ 
+				movies: results,
+			})
+		})
+	},
+
 	handleSwowMoreSearchResults() {
-		return API.getSearchResults(this.state.searchField, this.state.page+1)
+		return API.getSearchResults(this.props.location.query.query, this.state.page+1)
 		.then(({results}) => {
 			this.setState({
 				movies: this.state.movies.concat(results),
 				page: this.state.page+1
 			})
 		});
-	},
-	getInitialState() {
-		return {
-			movies: [],
-			page: 1,
-			searchField: this.props.location.query.query
-		};
-	},
-
-	componentWillMount() {
-		API.getSearchResults(this.state.searchField, this.state.page)
-		.then(({results}) => {
-			this.setState({ 
-				movies: results,
-			})
-		})
 	},
 
 	render() {
@@ -40,4 +48,4 @@ let Search = React.createClass({
 		)
 	}
 })
-export default Search
+export default SearchResults

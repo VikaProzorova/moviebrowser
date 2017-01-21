@@ -17,8 +17,7 @@ let PopularList = React.createClass({
 	getInitialState() {
 		return {
 			movies: [],
-			page: 1,
-			searchField: ''
+			page: 1
 		};
 	},
 
@@ -31,27 +30,10 @@ let PopularList = React.createClass({
 		})
 	},
 
-	updateSearchField(event) {
-		this.setState({
-			searchField: event.target.value
-		})
-	},
-
-	handleSearch(event) {
-		if (!this.state.searchField) {
-			event.preventDefault()	
-		}
-	},
-
 	render() {
 		return (
 			<div>
-				<input type="text" value={this.state.searchField} onChange={this.updateSearchField}/>
-
-				<Link onClick={this.handleSearch} to={{ pathname: '/search', query: { query: this.state.searchField } }}> Search </Link>
-
 				<MovieList movies={this.state.movies}/> 
-				
 				<button onClick={this.handleSwowMore}> Show more </button>
 			</div>
 		);

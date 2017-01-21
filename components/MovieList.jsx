@@ -19,7 +19,15 @@ let MovieList = React.createClass({
 		}
 
 		let movies = this.props.movies.map(movie => {
-			let movieGenres = movie.genres || movie.genre_ids.map(movieGenreId => this.state.genres[movieGenreId])
+			let movieGenres = movie.genres || movie.genre_ids.map(movieGenreId => {
+				let genre = this.state.genres[movieGenreId]
+				if (!genre) {
+					console.log('Missing genre:', movieGenreId, movie)
+				}
+				return genre
+			})
+			.filter(genre => !!genre)
+
 			let movieGenresNames = movieGenres.map(genre => genre.name).join(', ')
 
 			return <li key={movie.id}> 
