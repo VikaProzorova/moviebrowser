@@ -41,7 +41,7 @@ let SearchResults = React.createClass({
 	render() {
 		return (
 			<div>
-				<h1> Search results </h1>
+				<h1> Search results for "{this.props.location.query.query}"</h1>
 				<MovieList movies={this.state.movies}/> 
 				<button onClick={this.handleSwowMoreSearchResults}> Show more </button>
 			</div>

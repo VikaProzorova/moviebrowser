@@ -5,7 +5,7 @@ import API from '../api'
 let Search = React.createClass({
 	getInitialState() {
 		return {
-			searchField: ''
+			searchField: '' 
 		};
 	},
 	updateSearchField(event) {
@@ -14,6 +14,10 @@ let Search = React.createClass({
 		})
 	},
 	handleSearch(event) {
+		this.setState({
+			searchField: ''
+		})
+		
 		if (!this.state.searchField) {
 			event.preventDefault()	
 		}
