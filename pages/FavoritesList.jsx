@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
-import API from './api'
+import API from '../api'
+import MovieList from '../components/MovieList.jsx'
 
 let FavoritesList = React.createClass({
 	getInitialState() {
@@ -17,17 +18,9 @@ let FavoritesList = React.createClass({
 	},
 
 	render() {
-		let movies = this.state.movies.map(movie => {
-			return <li key={movie.id}> 
-				<Link to={{ pathname: '/movie', query: { movieID: movie.id } }}> {movie.title} </Link> 
-			</li>
-		})
-
 		return (
 			<div>
-				<ul> 
-					{movies}
-				</ul>
+				<MovieList movies={this.state.movies}/> 
 			</div>
 		);
 	},

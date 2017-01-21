@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
-import API from './api'
+import API from '../api'
+import MovieList from '../components/MovieList.jsx'
 
 let Search = React.createClass({
 	handleSwowMoreSearchResults() {
@@ -21,30 +22,19 @@ let Search = React.createClass({
 	},
 
 	componentWillMount() {
-		Promise.all([ API.getSearchResults(this.state.searchField, this.state.page), API.getGenres() ])
-		.then(([{results}, genres]) => {
+		API.getSearchResults(this.state.searchField, this.state.page)
+		.then(({results}) => {
 			this.setState({ 
 				movies: results,
-				genres
 			})
 		})
 	},
 
 	render() {
-		let movies = this.state.movies.map(movie => {
-			let movieGenres = movie.genre_ids.map(movieGenreId => this.state.genres[movieGenreId]).join(', ')
-			return <li key={movie.id}> 
-				<Link to={{ pathname: '/movie', query: { movieID: movie.id } }}> {movie.title} </Link> 
-				{movieGenres}
-			</li>
-		})
-
 		return (
 			<div>
 				<h1> Search results </h1>
-				<ul> 
-					{movies}
-				</ul>
+				<MovieList movies={this.state.movies}/> 
 				<button onClick={this.handleSwowMoreSearchResults}> Show more </button>
 			</div>
 		)

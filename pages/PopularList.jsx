@@ -1,10 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router';
-import API from './api'
+import API from '../api'
+import MovieList from '../components/MovieList.jsx'
 
-let MoviesList = React.createClass({
+let PopularList = React.createClass({
 	handleSwowMore() {
-		return API.getPopularMovies(this.state.page+1)
+		API.getPopularMovies(this.state.page+1)
 		.then(({results}) => {
 			this.setState({
 				movies: this.state.movies.concat(results),
@@ -16,18 +17,16 @@ let MoviesList = React.createClass({
 	getInitialState() {
 		return {
 			movies: [],
-			genres: [],
 			page: 1,
 			searchField: ''
 		};
 	},
 
 	componentWillMount() {
-		Promise.all([ API.getPopularMovies(this.state.page), API.getGenres() ])
-		.then(([{results}, genres]) => {
+		API.getPopularMovies(this.state.page)
+		.then(({results}) => {
 			this.setState({ 
-				movies: results,
-				genres
+				movies: results
 			})
 		})
 	},
@@ -45,28 +44,17 @@ let MoviesList = React.createClass({
 	},
 
 	render() {
-		let movies = this.state.movies.map(movie => {
-			let movieGenres = movie.genre_ids.map(movieGenreId => this.state.genres[movieGenreId]).join(', ')
-			
-			return <li key={movie.id}> 
-				<Link to={{ pathname: '/movie', query: { movieID: movie.id } }}> {movie.title} </Link> 
-				{movieGenres}
-			</li>
-		})
-
 		return (
 			<div>
 				<input type="text" value={this.state.searchField} onChange={this.updateSearchField}/>
 
 				<Link onClick={this.handleSearch} to={{ pathname: '/search', query: { query: this.state.searchField } }}> Search </Link>
 
-				<ul> 
-					{movies}
-				</ul>
-
+				<MovieList movies={this.state.movies}/> 
+				
 				<button onClick={this.handleSwowMore}> Show more </button>
 			</div>
 		);
-	},
+	}
 })
-export default MoviesList
+export default PopularList

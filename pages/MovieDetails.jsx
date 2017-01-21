@@ -1,14 +1,15 @@
 import React from 'react';
 import {Link} from 'react-router';
-import API from './api'
+import API from '../api'
+import MovieList from '../components/MovieList.jsx'
 
 let MovieDetails = React.createClass({
-
 
 	getInitialState() {
 		return {
 			recommendations: [],
-			page: 1
+			page: 1,
+			isFavorite: this.getFavorites()[this.props.location.query.movieID]
 		}
 	},
 
@@ -32,16 +33,37 @@ let MovieDetails = React.createClass({
 			})
 		})
 	},
-	addToFavorites() {
+
+	getFavorites() {
 		let favorites = JSON.parse( localStorage.getItem("favorites") || '{}' )
-		favorites[this.props.location.query.movieID] = true
+		return favorites;
+	},
+
+	setFavorites(favorites){
 		localStorage.setItem("favorites", JSON.stringify(favorites)) 
+	},
+
+	addToFavorites() {
+		let favorites = this.getFavorites();
+		favorites[this.props.location.query.movieID] = true
+		this.setFavorites(favorites)
+		this.setState({isFavorite: true})
+	},
+
+	deleteFromFavorites() {
+		let favorites = this.getFavorites();
+		delete favorites[this.props.location.query.movieID] 
+		this.setFavorites(favorites)
+		this.setState({isFavorite: false})
 	},
 
 	render() {
 		if (!this.state.movie) {
 			return (<div> Loading </div>)
 		}
+		let favoritesButton = this.state.isFavorite
+			? <button onClick={this.deleteFromFavorites}> Not a Favorite </button> 
+			: <button onClick={this.addToFavorites}> Favorite </button>
 
 		return(
 			<div> 
@@ -54,15 +76,8 @@ let MovieDetails = React.createClass({
 				{this.state.movie.genres.map(genre => genre.name).join(', ')}
 				<br/>
 				{this.state.movie.overview}
-				<ul> 
-					{this.state.recommendations.map(recommendation => {
-						return <li key={recommendation.id}> 
-							<Link to={{ pathname: '/movie', query: { movieID: recommendation.id } }}> {recommendation.title} </Link> 
-						</li>
-					})}
-				</ul>
-				<button onClick={this.addToFavorites}> Favorite </button>
-
+				<MovieList movies={this.state.recommendations}/> 
+				{favoritesButton}
 			</div>
 		)
 	}

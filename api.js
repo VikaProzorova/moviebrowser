@@ -22,7 +22,7 @@ export default {
 	    	let formattedGenres = {}
 
 	    	for (var i = 0; i < genres.length; i++) {
-	    		formattedGenres[genres[i].id] = genres[i].name
+	    		formattedGenres[genres[i].id] = genres[i]
 	    	}
 	    	return formattedGenres;	
 	    })

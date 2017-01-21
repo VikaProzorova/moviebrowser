@@ -1,10 +1,7 @@
 import React from 'react';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import { Router, IndexRoute, Route, Link, browserHistory } from 'react-router';
-import MoviesList from './MoviesList.jsx';
-import Search from './Search.jsx'
-import MovieDetails from './MovieDetails.jsx'
-import FavoritesList from './FavoritesList.jsx'
+import pages from './pages'
 
 let NoMatch = React.createClass({
 	render() {
@@ -26,13 +23,15 @@ let Container = (props) => (
 	</div>
 )
 
+console.log(pages)
+
 render((
  	<Router history={browserHistory}>
     	<Route path="/" component={Container}>
-    		<IndexRoute component={MoviesList}/>
-      		<Route path="search" component={Search}/>
-      		<Route path="movie" component={MovieDetails}/>
-      		<Route path="favorites" component={FavoritesList}/>
+    		<IndexRoute component={pages.PopularList}/>
+      		<Route path="search" component={pages.SearchResults}/>
+      		<Route path="movie" component={pages.MovieDetails}/>
+      		<Route path="favorites" component={pages.FavoritesList}/>
       		<Route path="*" component={NoMatch}/>
       	</Route>
   	</Router>
