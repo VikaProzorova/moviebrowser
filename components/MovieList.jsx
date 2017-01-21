@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import API from '../api'
+import FavoriteButton from '../components/Favorite.jsx'
 
 let MovieList = React.createClass({
 	getInitialState() {
@@ -29,10 +30,12 @@ let MovieList = React.createClass({
 			.filter(genre => !!genre)
 
 			let movieGenresNames = movieGenres.map(genre => genre.name).join(', ')
-
+			console.log(movie.id)
 			return <li key={movie.id}> 
 				<Link to={{ pathname: '/movie', query: { movieID: movie.id } }}> {movie.title}, {movieGenresNames} </Link> 
+				<FavoriteButton movieID={movie.id}/>
 			</li>
+
 		})
 
 		return <ul>{movies}</ul>
