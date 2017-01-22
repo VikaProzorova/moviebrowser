@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
 import API from '../api'
-import MovieList from '../components/MovieList.jsx'
+import {MovieList} from '../components'
+import {PageHeader, Jumbotron, Button} from 'react-bootstrap'
 
 let SearchResults = React.createClass({
 	componentWillReceiveProps(nextProps) {
@@ -40,11 +41,11 @@ let SearchResults = React.createClass({
 
 	render() {
 		return (
-			<div>
-				<h1> Search results for "{this.props.location.query.query}"</h1>
+			<Jumbotron>
+				<PageHeader> Search results <small>for "{this.props.location.query.query}"</small> </PageHeader>
 				<MovieList movies={this.state.movies}/> 
-				<button onClick={this.handleSwowMoreSearchResults}> Show more </button>
-			</div>
+				<Button bsStyle="primary" onClick={this.handleSwowMoreSearchResults}> Show more </Button>
+			</Jumbotron>
 		)
 	}
 })

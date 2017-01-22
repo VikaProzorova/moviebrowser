@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
 import API from '../api'
-import MovieList from '../components/MovieList.jsx'
+import {MovieList} from '../components'
+import {PageHeader, Jumbotron} from 'react-bootstrap'
 
 let FavoritesList = React.createClass({
 	getInitialState() {
@@ -19,9 +20,10 @@ let FavoritesList = React.createClass({
 
 	render() {
 		return (
-			<div>
+			<Jumbotron>
+				<PageHeader> Favorite movies </PageHeader>
 				<MovieList movies={this.state.movies}/> 
-			</div>
+			</Jumbotron>
 		);
 	},
 })

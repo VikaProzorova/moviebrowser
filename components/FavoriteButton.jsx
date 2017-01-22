@@ -1,5 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
+import { Button, Glyphicon, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import API from '../api'
 
 let FavoriteButton = React.createClass({
@@ -39,11 +40,19 @@ let FavoriteButton = React.createClass({
 	},
 
 	render() {
+		if (this.state.isFavorite) {
+			let tooltip = <Tooltip id="tooltip">Remove from favorites</Tooltip>
 
-		let favoritesButton = this.state.isFavorite
-			? <button onClick={this.deleteFromFavorites}> Not a Favorite </button> 
-			: <button onClick={this.addToFavorites}> Favorite </button>
-		return (favoritesButton)
+			return <OverlayTrigger overlay={tooltip}>
+				<Glyphicon onClick={this.deleteFromFavorites} glyph="heart"/>
+			</OverlayTrigger>
+		} 
+
+		let tooltip = <Tooltip id="tooltip">Add to favorites</Tooltip>
+
+		return <OverlayTrigger overlay={tooltip}>
+			<Glyphicon onClick={this.addToFavorites} glyph="heart-empty"/>
+		</OverlayTrigger>
 	}
 })
 

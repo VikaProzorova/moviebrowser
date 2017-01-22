@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import { Button, Navbar, FormGroup, FormControl } from 'react-bootstrap';
 import API from '../api'
 
 let Search = React.createClass({
@@ -17,7 +18,7 @@ let Search = React.createClass({
 		this.setState({
 			searchField: ''
 		})
-		
+
 		if (!this.state.searchField) {
 			event.preventDefault()	
 		}
@@ -25,12 +26,15 @@ let Search = React.createClass({
 
 	render() {
 		return (
-			<div>
-			<input type="text" value={this.state.searchField} onChange={this.updateSearchField}/>
+			<Navbar.Form pullLeft>
+				<FormGroup>
+          			<FormControl type="text" placeholder="Search" value={this.state.searchField} onChange={this.updateSearchField}/>
+        		</FormGroup>
+        		{' '}
+        		<Link onClick={this.handleSearch} to={{ pathname: '/search', query: { query: this.state.searchField } }}> Submit </Link>
+      		</Navbar.Form>
 
-			<Link onClick={this.handleSearch} to={{ pathname: '/search', query: { query: this.state.searchField } }}> Search </Link>
 
-			</div>
 		)
 	}
 })

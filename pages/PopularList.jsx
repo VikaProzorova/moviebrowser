@@ -1,7 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
 import API from '../api'
-import MovieList from '../components/MovieList.jsx'
+import {MovieList} from '../components'
+import {PageHeader, Jumbotron, Button} from 'react-bootstrap'
+
 
 let PopularList = React.createClass({
 	handleSwowMore() {
@@ -32,10 +34,12 @@ let PopularList = React.createClass({
 
 	render() {
 		return (
-			<div>
+			
+			<Jumbotron>
+				<PageHeader> Popular movies </PageHeader>
 				<MovieList movies={this.state.movies}/> 
-				<button onClick={this.handleSwowMore}> Show more </button>
-			</div>
+				<Button bsStyle="primary" onClick={this.handleSwowMore}> Show more </Button>
+			</Jumbotron>
 		);
 	}
 })

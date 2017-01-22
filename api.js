@@ -53,7 +53,7 @@ export default {
 	},
 	
 
-	getImageSrc(imagePath, size='w185') {
+	getImageSrc(imagePath, size='w342') {
 		return `${imagesDomain}/${size}${imagePath}`
 	}
 }

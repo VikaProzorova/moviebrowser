@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
 import API from '../api'
-import FavoriteButton from '../components/Favorite.jsx'
+import {FavoriteButton, GenreLabel} from '../components'
+import {ListGroup, ListGroupItem, Grid, Row, Col, Glyphicon } from 'react-bootstrap'
 
 let MovieList = React.createClass({
 	getInitialState() {
@@ -29,16 +30,43 @@ let MovieList = React.createClass({
 			})
 			.filter(genre => !!genre)
 
-			let movieGenresNames = movieGenres.map(genre => genre.name).join(', ')
-			console.log(movie.id)
-			return <li key={movie.id}> 
-				<Link to={{ pathname: '/movie', query: { movieID: movie.id } }}> {movie.title}, {movieGenresNames} </Link> 
-				<FavoriteButton movieID={movie.id}/>
-			</li>
+			return <ListGroupItem key={movie.id}> 
+				<Grid>
+				    <Row className="show-grid">
+					    <Col xs={4} md={2}>
+							<img src={API.getImageSrc(movie.poster_path, "w92")}/> 
+						</Col>
+
+						<Col xs={8} md={9}>
+							<Link to={{ pathname: '/movie', query: { movieID: movie.id } }}> 
+								<h4> 
+									{movie.title} ({movie.release_date.split("-")[0]})
+								</h4> 
+							</Link> 
+							<p/>
+							<span> 
+								<h4>
+							      	<Glyphicon glyph="star"/> 
+							      	{movie.vote_average} 
+						   		</h4> 
+						    </span>
+							<br/> 
+								<h4>
+								{movieGenres.map(genre => <GenreLabel key={genre.id} genre={genre}/>)} 
+								</h4>
+						</Col>
+
+						<Col xs={4} md={1}>
+							<h4> <FavoriteButton movieID={movie.id}/> </h4>
+						</Col>
+					</Row>
+				</Grid>
+
+			</ListGroupItem>
 
 		})
 
-		return <ul>{movies}</ul>
+		return <ListGroup>{movies}</ListGroup>
 	}
 
 })
