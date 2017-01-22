@@ -1,30 +1,32 @@
 import React from 'react';
-import {Link} from 'react-router';
-import API from '../api'
-import {MovieList} from '../components'
-import {PageHeader, Jumbotron} from 'react-bootstrap'
+import { PageHeader, Jumbotron } from 'react-bootstrap';
+import API from '../api';
+import { MovieList } from '../components';
 
-let FavoritesList = React.createClass({
-	getInitialState() {
-		return {
-			movies: []
-		}
-	},
+class FavoritesList extends React.Component {
+    constructor(props) {
+        super(props);
 
-	componentWillMount() {
-		let favoritesIDs = Object.keys(JSON.parse( localStorage.getItem("favorites") || '{}' ))
+        this.state = {
+            movies: []
+        };
+    }
 
-		Promise.all(favoritesIDs.map(API.getMovieDetails))
-		.then(movies => this.setState({movies}))
-	},
+    componentWillMount() {
+        const favoritesIDs = Object.keys(JSON.parse(localStorage.getItem('favorites') || '{}'));
 
-	render() {
-		return (
-			<Jumbotron>
-				<PageHeader> Favorite movies </PageHeader>
-				<MovieList movies={this.state.movies}/> 
-			</Jumbotron>
-		);
-	},
-})
-export default FavoritesList
+        Promise.all(favoritesIDs.map(API.getMovieDetails))
+        .then(movies => this.setState({ movies }));
+    }
+
+    render() {
+        return (
+            <Jumbotron>
+                <PageHeader> Favorite movies </PageHeader>
+                <MovieList movies={this.state.movies} />
+            </Jumbotron>
+        );
+    }
+}
+
+export default FavoritesList;

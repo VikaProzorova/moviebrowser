@@ -1,59 +1,63 @@
 import React from 'react';
-import { Link } from 'react-router';
-import { Button, Glyphicon, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import API from '../api'
+import { Glyphicon, Tooltip, OverlayTrigger } from 'react-bootstrap';
 
-let FavoriteButton = React.createClass({
-	getInitialState() {
-		return{
-			isFavorite: this.getFavorites()[this.props.movieID]
-		}
-	},
+class FavoriteButton extends React.Component {
+    constructor(props) {
+        super(props);
 
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			isFavorite: this.getFavorites()[nextProps.movieID]
-		})
-	},
+        this.state = {
+            isFavorite: this.getFavorites()[this.props.movieID]
+        };
+    }
 
-	getFavorites() {
-		let favorites = JSON.parse( localStorage.getItem("favorites") || '{}' )
-		return favorites;
-	},
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            isFavorite: this.getFavorites()[nextProps.movieID]
+        });
+    }
 
-	setFavorites(favorites){
-		localStorage.setItem("favorites", JSON.stringify(favorites)) 
-	},
+    getFavorites() {
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
 
-	addToFavorites() {
-		let favorites = this.getFavorites();
-		favorites[this.props.movieID] = true
-		this.setFavorites(favorites)
-		this.setState({isFavorite: true})
-	},
 
-	deleteFromFavorites() {
-		let favorites = this.getFavorites();
-		delete favorites[this.props.movieID] 
-		this.setFavorites(favorites)
-		this.setState({isFavorite: false})
-	},
+        return favorites;
+    }
 
-	render() {
-		if (this.state.isFavorite) {
-			let tooltip = <Tooltip id="tooltip">Remove from favorites</Tooltip>
+    setFavorites(favorites) {
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
 
-			return <OverlayTrigger overlay={tooltip}>
-				<Glyphicon onClick={this.deleteFromFavorites} glyph="heart"/>
-			</OverlayTrigger>
-		} 
+    addToFavorites() {
+        const favorites = this.getFavorites();
 
-		let tooltip = <Tooltip id="tooltip">Add to favorites</Tooltip>
+        favorites[this.props.movieID] = true;
+        this.setFavorites(favorites);
+        this.setState({ isFavorite: true });
+    }
 
-		return <OverlayTrigger overlay={tooltip}>
-			<Glyphicon onClick={this.addToFavorites} glyph="heart-empty"/>
-		</OverlayTrigger>
-	}
-})
+    deleteFromFavorites() {
+        const favorites = this.getFavorites();
 
-export default FavoriteButton
+        delete favorites[this.props.movieID];
+        this.setFavorites(favorites);
+        this.setState({ isFavorite: false });
+    }
+
+    render() {
+        if (this.state.isFavorite) {
+            const tooltip = <Tooltip id='tooltip'>Remove from favorites</Tooltip>;
+
+            return (<OverlayTrigger overlay={tooltip}>
+                <Glyphicon onClick={this.deleteFromFavorites.bind(this)} glyph='heart' />
+            </OverlayTrigger>);
+        }
+
+        const tooltip = <Tooltip id='tooltip'>Add to favorites</Tooltip>;
+
+        return (<OverlayTrigger overlay={tooltip}>
+            <Glyphicon onClick={this.addToFavorites.bind(this)} glyph='heart-empty' />
+        </OverlayTrigger>);
+    }
+}
+
+export default FavoriteButton;

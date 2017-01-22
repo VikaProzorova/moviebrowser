@@ -1,19 +1,19 @@
 import React from 'react';
 import { Label } from 'react-bootstrap';
 
-let colors = ['primary', 'success', 'info', 'warning', 'danger']
+const colors = ['primary', 'success', 'info', 'warning', 'danger'];
 
-let FavoriteButton = React.createClass({
-	render() {
-		let genre = this.props.genre
-		let color = colors[genre.id % colors.length]
+class GenreLabel extends React.Component {
+    render() {
+        const genre = this.props.genre;
+        const color = colors[genre.id % colors.length];
 
-		return <span key={genre.id}>
-			<Label bsStyle={color}>{genre.name}</Label>
-			{' '}
-		</span>
-	}
-})
+        return (<span key={genre.id}>
+            <Label bsStyle={color}>{genre.name}</Label>
+            {' '}
+        </span>);
+    }
+}
 
-export default FavoriteButton
+export default GenreLabel;
 

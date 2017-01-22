@@ -1,41 +1,62 @@
 import React from 'react';
-import {Link} from 'react-router';
-import { Button, Navbar, FormGroup, FormControl } from 'react-bootstrap';
-import API from '../api'
+import { withRouter } from 'react-router';
+import { Navbar, FormGroup, FormControl, Button } from 'react-bootstrap';
 
-let Search = React.createClass({
-	getInitialState() {
-		return {
-			searchField: '' 
-		};
-	},
-	updateSearchField(event) {
-		this.setState({
-			searchField: event.target.value
-		})
-	},
-	handleSearch(event) {
-		this.setState({
-			searchField: ''
-		})
+class Search extends React.Component {
+    constructor(props) {
+        super(props);
 
-		if (!this.state.searchField) {
-			event.preventDefault()	
-		}
-	},
+        this.state = {
+            searchField: ''
+        };
+    }
 
-	render() {
-		return (
-			<Navbar.Form pullLeft>
-				<FormGroup>
-          			<FormControl type="text" placeholder="Search" value={this.state.searchField} onChange={this.updateSearchField}/>
-        		</FormGroup>
-        		{' '}
-        		<Link onClick={this.handleSearch} to={{ pathname: '/search', query: { query: this.state.searchField } }}> Submit </Link>
-      		</Navbar.Form>
+    handleSearch() {
+        this.setState({
+            searchField: ''
+        });
+
+        const searchField = this.state.searchField;
+        if (searchField) {
+            this.props.router.push({ pathname: '/search', query: { query: searchField } });
+        }
+    }
+
+    handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            this.handleSearch();
+        }
+    }
+
+    updateSearchField(event) {
+        this.setState({
+            searchField: event.target.value
+        });
+    }
+
+    render() {
+        const searchField = this.state.searchField;
+
+        return (
+            <Navbar.Form pullLeft>
+                <FormGroup>
+                    <FormControl
+                        type='text'
+                        placeholder='Search'
+                        value={searchField}
+                        onChange={this.updateSearchField.bind(this)}
+                        onKeyPress={this.handleKeyPress.bind(this)}
+                    />
+                </FormGroup>
+                {' '}
+                <Button onClick={this.handleSearch.bind(this)} >
+                    Submit
+                </Button>
+            </Navbar.Form>
 
 
-		)
-	}
-})
-export default Search
+        );
+    }
+}
+
+export default withRouter(Search);
